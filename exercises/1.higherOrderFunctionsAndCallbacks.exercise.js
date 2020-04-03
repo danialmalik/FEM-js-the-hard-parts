@@ -144,46 +144,67 @@ console.log(objOfMatches(['hi', 'howdy', 'bye', 'later', 'hello'], ['HI', 'Howdy
 
 // Challenge 10
 function multiMap(arrVals, arrCallbacks) {
-
+  const output = {};
+  arrCallbacks.forEach(callback => {
+    arrVals.map(val => Array.isArray(output[val]) ? output[val].push(callback(val)) : output[val] = [callback(val)])
+  });
+  return output
 }
 
-// console.log(multiMap(['catfood', 'glue', 'beer'], [function(str) { return str.toUpperCase(); }, function(str) { return str[0].toUpperCase() + str.slice(1).toLowerCase(); }, function(str) { return str + str; }]));
+
+console.log(multiMap(['catfood', 'glue', 'beer'], [function (str) { return str.toUpperCase(); }, function (str) { return str[0].toUpperCase() + str.slice(1).toLowerCase(); }, function (str) { return str + str; }]));
 // should log: { catfood: ['CATFOOD', 'Catfood', 'catfoodcatfood'], glue: ['GLUE', 'Glue', 'glueglue'], beer: ['BEER', 'Beer', 'beerbeer'] }
 
 
 // Challenge 11
 function objectFilter(obj, callback) {
-
+  const output = {}
+  for (let key in obj) {
+    if (callback(obj[key]) === obj[key]) {
+      output[key] = obj[key];
+    }
+  }
+  return output;
 }
 
-// const cities = {
-// London: 'LONDON',
-// LA: 'Los Angeles',
-// Paris: 'PARIS',
-// };
-// console.log(objectFilter(cities, city => city.toUpperCase())) // Should log { London: 'LONDON', Paris: 'PARIS'}
+const cities = {
+  London: 'LONDON',
+  LA: 'Los Angeles',
+  Paris: 'PARIS',
+};
+console.log(objectFilter(cities, city => city.toUpperCase())) // Should log { London: 'LONDON', Paris: 'PARIS'}
 
 
 // Challenge 12
 function majority(array, callback) {
-
+  const totalValues = array.length;
+  const truthCount = array.filter(val => callback(val)).length
+  return truthCount > Math.floor(totalValues / 2);
 }
 
-// /*** Uncomment these to check your work! ***/
+/*** Uncomment these to check your work! ***/
 // const isOdd = function(num) { return num % 2 === 1; };
-// console.log(majority([1, 2, 3, 4, 5], isOdd)); // should log: true
-// console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
+console.log(majority([1, 2, 3, 4, 5], isOdd)); // should log: true
+console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
 
 
 // Challenge 13
 function prioritize(array, callback) {
-
+  const output = [];
+  array.forEach(val => {
+    if (callback(val)) {
+      output.unshift(val);
+    } else {
+      output.push(val);
+    }
+  })
+  return output;
 }
 
-// /*** Uncomment these to check your work! ***/
-// const startsWithS = function(str) { return str[0] === 's' || str[0] === 'S'; };
-// console.log(prioritize(['curb', 'rickandmorty', 'seinfeld', 'sunny', 'friends'], startsWithS)); // should log:
-['seinfeld', 'sunny', 'curb', 'rickandmorty', 'friends']
+/*** Uncomment these to check your work! ***/
+const startsWithS = function (str) { return str[0] === 's' || str[0] === 'S'; };
+console.log(prioritize(['curb', 'rickandmorty', 'seinfeld', 'sunny', 'friends'], startsWithS));
+// should log: ['seinfeld', 'sunny', 'curb', 'rickandmorty', 'friends']
 
 
 // Challenge 14
