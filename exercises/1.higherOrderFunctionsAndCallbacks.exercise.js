@@ -143,6 +143,13 @@ console.log(objOfMatches(['hi', 'howdy', 'bye', 'later', 'hello'], ['HI', 'Howdy
 
 
 // Challenge 10
+/**
+ *
+ * Construct a function multiMap that will accept two arrays: an array of values and an array of callbacks. multiMap
+ * will return an object whose keys match the elements in the array of values. The corresponding values that are
+ * assigned to the keys will be arrays consisting of outputs from the array of callbacks, where the input to each
+ * callback is the key.
+ */
 function multiMap(arrVals, arrCallbacks) {
   const output = {};
   arrCallbacks.forEach(callback => {
@@ -157,6 +164,11 @@ console.log(multiMap(['catfood', 'glue', 'beer'], [function (str) { return str.t
 
 
 // Challenge 11
+/**
+ * Construct a function objectFilter that accepts an object as the first parameter and a callback function as the
+ * second parameter. objectFilter will return a new object. The new object will contain only the properties from the
+ * input object such that the property's value is equal to the property's key passed into the callback.
+ * */
 function objectFilter(obj, callback) {
   const output = {}
   for (let key in obj) {
@@ -176,6 +188,13 @@ console.log(objectFilter(cities, city => city.toUpperCase())) // Should log { Lo
 
 
 // Challenge 12
+/**
+ * Create a function majority that accepts an array and a callback. The callback will return either true or false.
+ * majority will iterate through the array and perform the callback on each element until it can be determined if the
+ * majority of the return values from the callback are true. If the number of true returns is equal to the number of
+ * false returns, majority should return false.
+ *
+ */
 function majority(array, callback) {
   const totalValues = array.length;
   const truthCount = array.filter(val => callback(val)).length
@@ -189,6 +208,12 @@ console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
 
 
 // Challenge 13
+/**
+ * Create a function prioritize that accepts an array and a callback. The callback will return either true or false.
+ * prioritize will iterate through the array and perform the callback on each element, and return a new array, where
+ * all the elements that yielded a return value of true come first in the array, and the rest of the elements come
+ * second.
+ * */
 function prioritize(array, callback) {
   const output = [];
   array.forEach(val => {
@@ -208,83 +233,140 @@ console.log(prioritize(['curb', 'rickandmorty', 'seinfeld', 'sunny', 'friends'],
 
 
 // Challenge 14
+/**
+ * Create a function countBy that accepts an array and a callback, and returns an object. countBy will iterate through
+ * the array and perform the callback on each element. Each return value from the callback will be saved as a key on
+ * the object. The value associated with each key will be the number of times that particular return value was returned.
+ *
+ */
 function countBy(array, callback) {
-
+  const output = {};
+  array.forEach(val => {
+    const callbackResult = callback(val);
+    output[callbackResult] = output[callbackResult] ? output[callbackResult] + 1 : 1;
+  });
+  return output;
 }
 
-// /*** Uncomment these to check your work! ***/
-// console.log(countBy([1, 2, 3, 4, 5], function(num) {
-// if (num % 2 === 0) return 'even';
-// else return 'odd';
-// })); // should log: { odd: 3, even: 2 }
+/*** Uncomment these to check your work! ***/
+console.log(countBy([1, 2, 3, 4, 5], function (num) {
+  if (num % 2 === 0) return 'even';
+  else return 'odd';
+})); // should log: { odd: 3, even: 2 }
 
 
 // Challenge 15
+/**
+ * returns an object. groupBy will iterate through the array and perform the callback on each element.
+ * Each return value from the callback will be saved as a key on the object. The value associated with each key will
+ * be an array consisting of all the elements that resulted in that return value when passed into the callback.
+ */
 function groupBy(array, callback) {
-
+  const output = {};
+  array.forEach(el => {
+    const callbackResult = callback(el);
+    output[callbackResult] = Array.isArray(output[callbackResult])
+      ? output[callbackResult].concat(el)
+      : [el];
+  });
+  return output;
 }
 
-// /*** Uncomment these to check your work! ***/
-// const decimals = [1.3, 2.1, 2.4];
-// const floored = function(num) { return Math.floor(num); };
-// console.log(groupBy(decimals, floored)); // should log: { 1: [1.3], 2: [2.1, 2.4] }
+/*** Uncomment these to check your work! ***/
+const decimals = [1.3, 2.1, 2.4];
+const floored = function (num) { return Math.floor(num); };
+console.log(groupBy(decimals, floored)); // should log: { 1: [1.3], 2: [2.1, 2.4] }
 
 
 // Challenge 16
+/**
+ * Create a function goodKeys that accepts an object and a callback. The callback will return either true or false.
+ * goodKeys will iterate through the object and perform the callback on each value. goodKeys will then return an array
+ * consisting only the keys whose associated values yielded a true return value from the callback.
+ *
+ */
 function goodKeys(obj, callback) {
-
+  return Object.keys(obj).filter(key => callback(obj[key]));
 }
 
-// /*** Uncomment these to check your work! ***/
-// const sunny = { mac: 'priest', dennis: 'calculating', charlie: 'birdlaw', dee: 'bird', frank: 'warthog' };
-// const startsWithBird = function(str) { return str.slice(0, 4).toLowerCase() === 'bird'; };
-// console.log(goodKeys(sunny, startsWithBird)); // should log: ['charlie', 'dee']
+/*** Uncomment these to check your work! ***/
+const sunny = { mac: 'priest', dennis: 'calculating', charlie: 'birdlaw', dee: 'bird', frank: 'warthog' };
+const startsWithBird = function (str) { return str.slice(0, 4).toLowerCase() === 'bird'; };
+console.log(goodKeys(sunny, startsWithBird)); // should log: ['charlie', 'dee']
 
 
 // Challenge 17
+/**
+ * Create a function commutative that accepts two callbacks and a value. commutative will return a boolean indicating
+ * if the passing the value into the first function, and then passing the resulting output into the second function,
+ * yields the same output as the same operation with the order of the functions reversed (passing the value into the
+ * second function, and then passing the output into the first function).
+ *
+ */
 function commutative(func1, func2, value) {
-
+  return func1(func2(value)) === func2(func1(value))
 }
 
-// /*** Uncomment these to check your work! ***/
-// const multBy3 = n => n * 3;
-// const divBy4 = n => n / 4;
-// const subtract5 = n => n - 5;
-// console.log(commutative(multBy3, divBy4, 11)); // should log: true
-// console.log(commutative(multBy3, subtract5, 10)); // should log: false
-// console.log(commutative(divBy4, subtract5, 48)); // should log: false
+/*** Uncomment these to check your work! ***/
+const multBy3 = n => n * 3;
+const divBy4 = n => n / 4;
+const subtract5 = n => n - 5;
+console.log(commutative(multBy3, divBy4, 11)); // should log: true
+console.log(commutative(multBy3, subtract5, 10)); // should log: false
+console.log(commutative(divBy4, subtract5, 48)); // should log: false
 
 
 // Challenge 18
+/**
+ * Create a function objFilter that accepts an object and a callback. objFilter should make a new object, and then
+ * iterate through the passed-in object, using each key as input for the callback. If the output from the callback is
+ * equal to the corresponding value, then that key-value pair is copied into the new object. objFilter will return this
+ * new object.
+ */
 function objFilter(obj, callback) {
-
+  const output = {};
+  Object.keys(obj).forEach(key => callback(key) === obj[key] && (output[key] = obj[key]));
+  return output;
 }
 
-// /*** Uncomment these to check your work! ***/
-// const startingObj = {};
-// startingObj[6] = 3;
-// startingObj[2] = 1;
-// startingObj[12] = 4;
-// const half = n => n / 2;
-// console.log(objFilter(startingObj, half)); // should log: { 2: 1, 6: 3 }
+/*** Uncomment these to check your work! ***/
+const startingObj = {};
+startingObj[6] = 3;
+startingObj[2] = 1;
+startingObj[12] = 4;
+const half = n => n / 2;
+console.log(objFilter(startingObj, half)); // should log: { 2: 1, 6: 3 }
 
 
 // Challenge 19
+/**
+ * Create a function rating that accepts an array (of functions) and a value. All the functions in the array will
+ * return true or false. rating should return the percentage of functions from the array that return true when the
+ * value is used as input.
+ *
+ */
 function rating(arrOfFuncs, value) {
-
+  const trueCount = arrOfFuncs.filter(func => func(value)).length;
+  return (trueCount / arrOfFuncs.length) * 100;
 }
 
-// /*** Uncomment these to check your work! ***/
-// const isEven = n => n % 2 === 0;
-// const greaterThanFour = n => n > 4;
-// const isSquare = n => Math.sqrt(n) % 1 === 0;
-// const hasSix = n => n.toString().includes('6');
-// const checks = [isEven, greaterThanFour, isSquare, hasSix];
-// console.log(rating(checks, 64)); // should log: 100
-// console.log(rating(checks, 66)); // should log: 75
+/*** Uncomment these to check your work! ***/
+const isEven = n => n % 2 === 0;
+const greaterThanFour = n => n > 4;
+const isSquare = n => Math.sqrt(n) % 1 === 0;
+const hasSix = n => n.toString().includes('6');
+const checks = [isEven, greaterThanFour, isSquare, hasSix];
+console.log(rating(checks, 64)); // should log: 100
+console.log(rating(checks, 66)); // should log: 75
 
 
 // Challenge 20
+/**
+ * Create a function pipe that accepts an array (of functions) and a value. pipe should input the value into the first
+ * function in the array, and then use the output from that function as input for the second function, and then use the
+ * output from that function as input for the third function, and so forth, until we have an output from the last
+ * function in the array. pipe should return the final output.
+ */
 function pipe(arrOfFuncs, value) {
 
 }
