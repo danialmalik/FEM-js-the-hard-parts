@@ -368,35 +368,53 @@ console.log(rating(checks, 66)); // should log: 75
  * function in the array. pipe should return the final output.
  */
 function pipe(arrOfFuncs, value) {
-
+  return arrOfFuncs.reduce((acc, currFunc) => currFunc(acc), value);
 }
 
-// /*** Uncomment these to check your work! ***/
-// const capitalize = str => str.toUpperCase();
-// const addLowerCase = str => str + str.toLowerCase();
-// const repeat = str => str + str;
-// const capAddlowRepeat = [capitalize, addLowerCase, repeat];
-// console.log(pipe(capAddlowRepeat, 'cat')); // should log: 'CATcatCATcat'
+/*** Uncomment these to check your work! ***/
+const capitalize = str => str.toUpperCase();
+const addLowerCase = str => str + str.toLowerCase();
+const repeat = str => str + str;
+const capAddlowRepeat = [capitalize, addLowerCase, repeat];
+console.log(pipe(capAddlowRepeat, 'cat')); // should log: 'CATcatCATcat'
 
 
 // Challenge 21
+/**
+ * Create a function highestFunc that accepts an object (which will contain functions) and a subject (which is any
+ * value). highestFunc should return the key of the object whose associated value (which will be a function) returns
+ * the largest number, when the subject is given as input.
+ */
 function highestFunc(objOfFuncs, subject) {
-
+  let highest = -Infinity;
+  let highestFunc = null;
+  Object.keys(objOfFuncs).forEach(func => {
+    if (objOfFuncs[func](subject) > highest) {
+      highest = objOfFuncs[func](subject);
+      highestFunc = func;
+    }
+  });
+  return highestFunc;
 }
 
-// /*** Uncomment these to check your work! ***/
-// const groupOfFuncs = {};
-// groupOfFuncs.double = n => n * 2;
-// groupOfFuncs.addTen = n => n + 10;
-// groupOfFuncs.inverse = n => n * -1;
-// console.log(highestFunc(groupOfFuncs, 5)); // should log: 'addTen'
-// console.log(highestFunc(groupOfFuncs, 11)); // should log: 'double'
-// console.log(highestFunc(groupOfFuncs, -20)); // should log: 'inverse'
+/*** Uncomment these to check your work! ***/
+const groupOfFuncs = {};
+groupOfFuncs.double = n => n * 2;
+groupOfFuncs.addTen = n => n + 10;
+groupOfFuncs.inverse = n => n * -1;
+console.log(highestFunc(groupOfFuncs, 5)); // should log: 'addTen'
+console.log(highestFunc(groupOfFuncs, 11)); // should log: 'double'
+console.log(highestFunc(groupOfFuncs, -20)); // should log: 'inverse'
 
 
 // Challenge 22
+/** combineOperations, that takes two parameters: a starting value and an array of functions. combineOperations should
+ * pass the starting value into the first function in the array. combineOperations should pass the value returned by
+ * the first function into the second function, and so on until every function in the array has been called.
+ * combineOperations should return the final value returned by the last function in the array
+ * */
 function combineOperations(startVal, arrOfFuncs) {
-
+  return arrOfFuncs.reduce((prev, func) => func(prev), startVal);
 }
 
 function add100(num) {
@@ -411,14 +429,25 @@ function multiplyByThree(num) {
   return num * 3;
 }
 
-// /*** Uncomment these to check your work! ***/
-// console.log(combineOperations(0, [add100, divByFive, multiplyByThree])); // Should output 60 -->
-// console.log(combineOperations(0, [divByFive, multiplyFive, addTen])); // Should output 10
+const addTen = num => num + 10;
+const multiplyFive = num => num * 5;
+
+/*** Uncomment these to check your work! ***/
+console.log(combineOperations(0, [add100, divByFive, multiplyByThree])); // Should output 60 -->
+console.log(combineOperations(0, [divByFive, multiplyFive, addTen])); // Should output 10
 
 
 // Challenge 23
+/**
+ * Define a function myFunc that takes an array and a callback. myFunc should pass each element from the array (in
+ * order) into the callback. If the callback returns true, myFunc should return the index of the current element. If
+ * the callback never returns true, myFunc should return -1;
+ */
 function myFunc(array, callback) {
-
+  for (let i = 0; i < array.length; i++) {
+    if (callback(array[i])) return i;
+  }
+  return -1;
 }
 
 const numbers = [2, 3, 6, 64, 10, 8, 12];
@@ -428,14 +457,22 @@ function isOdd(num) {
   return (num % 2 !== 0);
 }
 
-// /*** Uncomment these to check your work! ***/
-// console.log(myFunc(numbers, isOdd)); // Output should be 1
-// console.log(myFunc(evens, isOdd)); // Output should be -1
+/*** Uncomment these to check your work! ***/
+console.log(myFunc(numbers, isOdd)); // Output should be 1
+console.log(myFunc(evens, isOdd)); // Output should be -1
 
 
 // Challenge 24
+/**
+ * Write a function myForEach that accepts an array and a callback function. Your function should pass each element of
+ * the array (in order) into the callback function. The behavior of this function should mirror the functionality of
+ * the native .forEach() JavaScript array method as closely as possible.
+ *
+ */
 function myForEach(array, callback) {
-
+  for (const val of array) {
+    callback(val);
+  }
 }
 
 let sum = 0;
@@ -444,7 +481,7 @@ function addToSum(num) {
   sum += num;
 }
 
-// /*** Uncomment these to check your work! ***/
-// const nums = [1, 2, 3];
-// myForEach(nums, addToSum);
-// console.log(sum); // Should output 6
+/*** Uncomment these to check your work! ***/
+const nums = [1, 2, 3];
+myForEach(nums, addToSum);
+console.log(sum); // Should output 6
