@@ -494,39 +494,56 @@ continue to take the next number in the array after the previous PLAYER function
 just need to make sure the array has enough numbers for all the PLAYER functions.
  */
 function blackjack(array) {
-
+    let lastStop = 0
+    return function DEALER(num1, num2) {
+        let isBusted = false;
+        let sum = 0;
+        let callCount = 0;
+        return function PLAYER() {
+            if (isBusted) return 'you are done!';
+            if (callCount++ === 0) sum = num1 + num2;
+            else if (lastStop === 0 && sum === 0) {
+                sum = num1 + num2;
+            } else {
+                sum = sum + array[lastStop++];
+            }
+            if (sum <= 21) return sum;
+            isBusted = true;
+            return 'bust';
+        }
+    }
 }
 
-// /*** Uncomment these to check your work! ***/
+/*** Uncomment these to check your work! ***/
 
-// /*** DEALER ***/
-// const deal = blackjack([2, 6, 1, 7, 11, 4, 6, 3, 9, 8, 9, 3, 10, 4, 5, 3, 7, 4, 9, 6, 10, 11]);
+/*** DEALER ***/
+const deal = blackjack([2, 6, 1, 7, 11, 4, 6, 3, 9, 8, 9, 3, 10, 4, 5, 3, 7, 4, 9, 6, 10, 11]);
 
-// /*** PLAYER 1 ***/
-// const i_like_to_live_dangerously = deal(4, 5);
-// console.log(i_like_to_live_dangerously()); // => should log 9
-// console.log(i_like_to_live_dangerously()); // => should log 11
-// console.log(i_like_to_live_dangerously()); // => should log 17
-// console.log(i_like_to_live_dangerously()); // => should log 18
-// console.log(i_like_to_live_dangerously()); // => should log 'bust'
-// console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
-// console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
+/*** PLAYER 1 ***/
+const i_like_to_live_dangerously = deal(4, 5);
+console.log(i_like_to_live_dangerously()); // => should log 9
+console.log(i_like_to_live_dangerously()); // => should log 11
+console.log(i_like_to_live_dangerously()); // => should log 17
+console.log(i_like_to_live_dangerously()); // => should log 18
+console.log(i_like_to_live_dangerously()); // => should log 'bust'
+console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
+console.log(i_like_to_live_dangerously()); // => should log 'you are done!'
 
-// /*** BELOW LINES ARE FOR THE BONUS ***/
+/*** BELOW LINES ARE FOR THE BONUS ***/
 
-// /*** PLAYER 2 ***/
-// const i_TOO_like_to_live_dangerously = deal(2, 2);
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 4
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 15
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 19
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 'bust'
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
-// console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
+/*** PLAYER 2 ***/
+const i_TOO_like_to_live_dangerously = deal(2, 2);
+console.log(i_TOO_like_to_live_dangerously()); // => should log 4
+console.log(i_TOO_like_to_live_dangerously()); // => should log 15
+console.log(i_TOO_like_to_live_dangerously()); // => should log 19
+console.log(i_TOO_like_to_live_dangerously()); // => should log 'bust'
+console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
+console.log(i_TOO_like_to_live_dangerously()); // => should log 'you are done!
 
-// /*** PLAYER 3 ***/
-// const i_ALSO_like_to_live_dangerously = deal(3, 7);
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 10
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 13
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 'bust'
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
-// console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
+/*** PLAYER 3 ***/
+const i_ALSO_like_to_live_dangerously = deal(3, 7);
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 10
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 13
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 'bust'
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
+console.log(i_ALSO_like_to_live_dangerously()); // => should log 'you are done!
